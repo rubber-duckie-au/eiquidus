@@ -1,3 +1,5 @@
+@use "sass:string";
+
 @use 'theme-selector' as theme-selector;
 @use './themes/cerulean/variables' as cerulean;
 @use './themes/cosmo/variables' as cosmo;
@@ -26,7 +28,7 @@
 @use './themes/yeti/variables' as yeti;
 @use './themes/zephyr/variables' as zephyr;
 
-$theme-name: to-lower-case(theme-selector.$theme-name);
+$theme-name: string.to-lower-case(theme-selector.$theme-name);
 
 @mixin table-border-color($important: 0) {
   @if $theme-name == "cerulean" {
@@ -726,6 +728,64 @@ $theme-name: to-lower-case(theme-selector.$theme-name);
   }
 }
 
+@mixin loading-animation-color() {
+  @if $theme-name == "cerulean" {
+    background: cerulean.$primary;
+  } @else if $theme-name == "cosmo" {
+    background: cosmo.$primary;
+  } @else if $theme-name == "cyborg" {
+    background: cyborg.$primary;
+  } @else if $theme-name == "darkly" {
+    background: darkly.$primary;
+  } @else if $theme-name == "exor" {
+    background: exor.$primary;
+  } @else if $theme-name == "flatly" {
+    background: flatly.$primary;
+  } @else if $theme-name == "journal" {
+    background: journal.$primary;
+  } @else if $theme-name == "litera" {
+    background: litera.$primary;
+  } @else if $theme-name == "lumen" {
+    background: lumen.$primary;
+  } @else if $theme-name == "lux" {
+    background: lux.$primary;
+  } @else if $theme-name == "materia" {
+    background: materia.$primary;
+  } @else if $theme-name == "minty" {
+    background: minty.$primary;
+  } @else if $theme-name == "morph" {
+    background: morph.$primary;
+  } @else if $theme-name == "pulse" {
+    background: pulse.$primary;
+  } @else if $theme-name == "quartz" {
+    background: quartz.$primary;
+  } @else if $theme-name == "sandstone" {
+    background: sandstone.$primary;
+  } @else if $theme-name == "simplex" {
+    background: simplex.$primary;
+  } @else if $theme-name == "sketchy" {
+    background: sketchy.$primary;
+  } @else if $theme-name == "slate" {
+    background: slate.$secondary;
+  } @else if $theme-name == "solar" {
+    background: solar.$primary;
+  } @else if $theme-name == "spacelab" {
+    background: spacelab.$primary;
+  } @else if $theme-name == "superhero" {
+    background: superhero.$primary;
+  } @else if $theme-name == "united" {
+    background: united.$primary;
+  } @else if $theme-name == "vapor" {
+    background: vapor.$primary;
+  } @else if $theme-name == "yeti" {
+    background: yeti.$primary;
+  } @else if $theme-name == "zephyr" {
+    background: zephyr.$primary;
+  } @else {
+    background: rgb(13, 110, 253);
+  }
+}
+
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -759,6 +819,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   .social-link {
     margin-right: 0.2rem;
     font-size: 100%;
+
+    > img {
+      user-select: none;
+    }
   }
 }
 
@@ -909,6 +973,10 @@ div.dataTables_scrollBody > table {
     border-top-style: solid;
     @include table-border-color;
   }
+}
+
+div.dataTables_processing > div:last-child > div {
+  @include loading-animation-color;
 }
 
 .card {
@@ -1069,6 +1137,13 @@ tr {
   /* Fix for sketchy v5.13 theme turning all table data black */
   @if $theme-name == "sketchy" {
     background-color: #fcfcfc;
+  }
+}
+
+/* Fix for sketchy v5.13 theme turning all table data black */
+@if $theme-name == "sketchy" {
+  .table-dark td {
+    background-color: transparent;
   }
 }
 
@@ -1333,6 +1408,7 @@ div#side-nav-bar {
 div.offcanvas-body {
   padding: 0;
   overflow-x: hidden;
+  align-items: normal;
 
   div#side-nav-bar {
     display: block;
@@ -1349,6 +1425,10 @@ div.offcanvas-body {
 
 #sidebar-offcanvas-close {
   display: none;
+
+  > a.nav-link > span {
+    line-height: 1;
+  }
 }
 
 .navbar-nav #sidebar-offcanvas-close .nav-link:hover, .navbar-nav #sidebar-offcanvas-close .nav-link:focus {
@@ -1449,6 +1529,11 @@ div.navbar-expand-lg {
   margin-top: 80px;
 }
 
+#logo-panel {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
 @media screen and (min-width: 992px) {
   div#side-nav-bar {
     display: block;
@@ -1475,6 +1560,15 @@ div.navbar-expand-lg {
   #inner-header-side button#search-header-button {
     display: none;
   }
+
+  #logo-panel {
+    margin-top: -15px;
+    margin-bottom: 0;
+  }
+}
+
+.navbar-collapse {
+  align-items: normal;
 }
 
 #search-navbar-collapse {
@@ -1512,7 +1606,7 @@ div.navbar-expand-lg {
   @include header-button-dark;
 }
 
-.os-content > .navbar-nav > li#markets > div.dropdown-menu {
+div[data-overlayscrollbars-viewport="scrollbarHidden"] > .navbar-nav > li#markets > div.dropdown-menu {
   background-color: transparent !important;
   margin: 0;
   padding: 0;
@@ -1582,11 +1676,11 @@ div.navbar-expand-lg {
   }
 }
 
-#showClaimInstructions {
+.instructions {
   color: #ffffff;
 }
 
-#showClaimInstructions:hover {
+.instructions:hover {
   color: #efefef;
 }
 
